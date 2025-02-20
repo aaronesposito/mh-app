@@ -1,0 +1,18 @@
+# Ignore SQLite database file
+mentalhealth.db
+
+# Ignore virtual environment folder
+.venv/
+
+# Ignore other common Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.sqlite3
+.DS_Store
+.idea/
+.vscode/
