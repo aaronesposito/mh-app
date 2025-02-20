@@ -38,7 +38,7 @@
 
             const ctx = document.getElementById('mood-sleep-chart').getContext('2d');
             const myChart = new Chart(ctx, {
-                type: 'line', 
+                type: 'line',
                 data: {
                     labels: labels.toReversed(),
                     datasets: [
@@ -66,8 +66,8 @@
                     ]
                 },
                 options: {
-                    responsive: true, 
-                    maintainAspectRatio: false, 
+                    responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'top' }
                     },
@@ -81,10 +81,10 @@
             });
     </script>
     <script>
-        const data = {{data | tojson }};
+        const data = {{ data | tojson }};
         const headers = ["dates", "moods", "sleeps", "focuses", "notes"]
         const totalRows = data["dates"].length;
-        const rowsPerPage = 5;
+        const rowsPerPage = 7;
         const tableBody = document.querySelector("#dataTable tbody")
         const prevButton = document.getElementById("prev")
         const nextButton = document.getElementById("next")

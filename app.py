@@ -11,17 +11,18 @@ def home():
 @app.route("/create", methods=['GET', 'POST'])
 def create_entry():
     if request.method == 'POST':
-        data = [int(request.form['focus']), 
-                int(request.form['mood']), 
-                float(request.form['sleep']), 
+        data = [int(request.form['focus']),
+                int(request.form['mood']),
+                float(request.form['sleep']),
                 request.form['notes']]
-        
+
         con = sqlite3.connect("mentalhealth.db")
         cur = con.cursor()
         cur.execute("INSERT INTO day(focus, mood, sleep, note) VALUES(?, ?, ?, ?)", data)
         con.commit()
+        con.close()
         return render_template('home.html')
-    else:    
+    else:
         return render_template('form.html')
 
 @app.route("/view")
@@ -31,6 +32,7 @@ def view_entries():
     cur = con.cursor()
     for row in cur.execute("SELECT * FROM day ORDER BY date"):
         data_tuples.append(row)
+    con.close()
 
     data = {
         "dates": [row[0][:-3] for row in data_tuples],
