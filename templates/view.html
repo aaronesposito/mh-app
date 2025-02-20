@@ -96,22 +96,15 @@
             array[index] = rowDate.slice(0, 10);
         });
 
+        function displayChart(page){
 
+        }
         function displayTable(page){
             tableBody.innerHTML = "";
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             for (let i = start; i < end && i < totalRows; i++) {
-                let rowHTML = "<tr>";
-                headers.forEach(key => {
-                    if (key == "notes") {
-                        rowHTML += `<td id="dateRow">${data[key][i]}</td>`;
-                    } else {
-                        rowHTML += `<td>${data[key][i]}</td>`;
-                    }
-                });
-                rowHTML += "</tr>";
-                tableBody.innerHTML += rowHTML;
+
             }
             pageInfo.textContent = `Page ${page} of ${totalPages}`;
             prevButton.disabled = page === 1;
