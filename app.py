@@ -42,8 +42,8 @@ def view_entries():
         "notes": [row[3] for row in data_tuples]
     }
 
-    for key, values in data.items():
-        values.reverse()
+    # for key, values in data.items():
+    #     values.reverse()
 
 
     return render_template('view.html', data=data)

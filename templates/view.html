@@ -30,35 +30,45 @@
         </div>
     </div>
     <script>
-            const labels = {{ data["dates"] | tojson }};
-            const moods = {{ data["moods"] | tojson }};
-            const sleeps = {{ data["sleeps"] | tojson }};
-            const focuses = {{ data["focuses"] | tojson }};
+        const data = {{ data | tojson }};
+        const headers = ["dates", "moods", "sleeps", "focuses", "notes"]
+        const totalRows = data["dates"].length;
+        const rowsPerPage = 7;
+        const tableBody = document.querySelector("#dataTable tbody")
+        const prevButton = document.getElementById("prev")
+        const nextButton = document.getElementById("next")
+        const pageInfo = document.getElementById("pageInfo")
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const ctx = document.getElementById('mood-sleep-chart').getContext('2d');
+        let currentPage = totalPages;
+        let chartScale = rowsPerPage
 
+        data["dates"].forEach((rowDate, index, array) => {
+            array[index] = rowDate.slice(0, 10);
+        });
 
-            const ctx = document.getElementById('mood-sleep-chart').getContext('2d');
-            const myChart = new Chart(ctx, {
+        var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels.toReversed(),
+                    labels: data["dates"].slice(0, 7),
                     datasets: [
                         {
                             label: 'Mood Score',
-                            data: moods.toReversed(),
+                            data: data["moods"].slice(0, 7),
                             borderColor: 'blue',
                             fill: false,
                             tension: 0.3
                         },
                         {
                             label: 'Sleep Hours',
-                            data: sleeps.toReversed(),
+                            data: data["sleeps"].slice(0, 7),
                             borderColor: 'green',
                             fill: false,
                             tension: 0.3
                         },
                         {
                             label: 'Focus Level',
-                            data: focuses.toReversed(),
+                            data: data["focuses"].slice(0, 7),
                             borderColor: 'red',
                             fill: false,
                             tension: 0.3
@@ -79,52 +89,115 @@
                     }
                 }
             });
-    </script>
-    <script>
-        const data = {{ data | tojson }};
-        const headers = ["dates", "moods", "sleeps", "focuses", "notes"]
-        const totalRows = data["dates"].length;
-        const rowsPerPage = 7;
-        const tableBody = document.querySelector("#dataTable tbody")
-        const prevButton = document.getElementById("prev")
-        const nextButton = document.getElementById("next")
-        const pageInfo = document.getElementById("pageInfo")
-        const totalPages = Math.ceil(totalRows / rowsPerPage);
-        let currentPage = 1;
-
-        data["dates"].forEach((rowDate, index, array) => {
-            array[index] = rowDate.slice(0, 10);
-        });
 
         function displayChart(page){
-
+            const start = (page - 1) * chartScale;
+            const end = start + chartScale;
+            for(header of headers){
+                console.log([data[header].slice(start, end)])
+            }
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data["dates"].slice(page == 1? 0 : start-1, end),
+                    datasets: [
+                        {
+                            label: 'Mood Score',
+                            data: data["moods"].slice(page == 1? 0 : start-1, end),
+                            borderColor: 'blue',
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sleep Hours',
+                            data: data["sleeps"].slice(page == 1? 0 : start-1, end),
+                            borderColor: 'green',
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Focus Level',
+                            data: data["focuses"].slice(page == 1? 0 : start-1, end),
+                            borderColor: 'red',
+                            fill: false,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 10,
+                        }
+                    }
+                }
+            });
         }
         function displayTable(page){
             tableBody.innerHTML = "";
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             for (let i = start; i < end && i < totalRows; i++) {
-
+                let rowHTML = "<tr>";
+                headers.forEach(key => {
+                    if (key == "notes") {
+                        rowHTML += `<td id="dateRow">${data[key][i]}</td>`;
+                    } else {
+                        rowHTML += `<td>${data[key][i]}</td>`;
+                    }
+                });
+                rowHTML += "</tr>";
+                tableBody.innerHTML += rowHTML;
             }
             pageInfo.textContent = `Page ${page} of ${totalPages}`;
             prevButton.disabled = page === 1;
             nextButton.disabled = page === totalPages;
         }
 
+        function reRenderElements(currentPage){
+            displayTable(currentPage);
+            myChart.destroy()
+            displayChart(currentPage);
+        }
+
         prevButton.addEventListener("click", () => {
             if (currentPage > 1) {
             currentPage--;
-            displayTable(currentPage);
+            reRenderElements(currentPage)
             }
         });
 
         nextButton.addEventListener("click", () => {
             if (currentPage < totalPages) {
             currentPage++;
-            displayTable(currentPage);
+            reRenderElements(currentPage)
             }
         });
 
-        displayTable(currentPage)
+        // weekButton.addEventListener("click", () => {
+        //     chartScale = 7
+        //     myChart.destroy()
+        //     displayChart(currentPage);
+        // })
+
+        // monthButton.addEventListener("click", () => {
+        //     chartScale = 30
+        //     myChart.destroy()
+        //     displayChart(currentPage);
+        // })
+
+        // allTimeButton.addEventListener("click", () => {
+        //     chartscale = data["dates"].length
+        //     myChart.destroy()
+        //     displayChart(currentPage);
+        // })
+
+        displayTable(currentPage);
     </script>
 {% endblock %}
