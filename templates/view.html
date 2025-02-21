@@ -41,6 +41,7 @@
         const totalPages = Math.ceil(totalRows / rowsPerPage);
         const ctx = document.getElementById('mood-sleep-chart').getContext('2d');
         let currentPage = totalPages;
+        const lastPageRows = totalRows%rowsPerPage == 0 ? 7 : totalRows%rowsPerPage
 
         data["dates"].forEach((rowDate, index, array) => {
             array[index] = rowDate.slice(0, 10);
@@ -49,7 +50,7 @@
         var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data["dates"].slice(totalRows-8, totalRows),
+                    labels: data["dates"].slice(totalRows-lastPageRows, totalRows),
                     datasets: [
                         {
                             label: 'Mood Score',
