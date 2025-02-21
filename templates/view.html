@@ -12,6 +12,7 @@
                     <th style="text-align: center; width: 5%;">Hours Slept</th>
                     <th style="text-align: center; width: 5%;">Focus</th>
                     <th style="text-align: center; width: 60%;">Notes</th>
+                    <th class="hideonsmallscreen"></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -41,7 +42,6 @@
         const totalPages = Math.ceil(totalRows / rowsPerPage);
         const ctx = document.getElementById('mood-sleep-chart').getContext('2d');
         let currentPage = totalPages;
-        let chartScale = rowsPerPage
 
         data["dates"].forEach((rowDate, index, array) => {
             array[index] = rowDate.slice(0, 10);
@@ -50,7 +50,7 @@
         var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data["dates"].slice(0, 7),
+                    labels: data["dates"].slice(totalRows-8, totalRows),
                     datasets: [
                         {
                             label: 'Mood Score',
@@ -91,8 +91,8 @@
             });
 
         function displayChart(page){
-            const start = (page - 1) * chartScale;
-            const end = start + chartScale;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
             for(header of headers){
                 console.log([data[header].slice(start, end)])
             }
@@ -147,11 +147,12 @@
                 let rowHTML = "<tr>";
                 headers.forEach(key => {
                     if (key == "notes") {
-                        rowHTML += `<td id="dateRow">${data[key][i]}</td>`;
+                        rowHTML += `<td id="noteRow">${data[key][i]}</td>`;
                     } else {
                         rowHTML += `<td>${data[key][i]}</td>`;
                     }
                 });
+                rowHTML += `<td class="hideonsmallscreen"><button type='input' id="deleteButton" class='btn btn-danger' value='${data["dates"][i]}'>X</button></td>`
                 rowHTML += "</tr>";
                 tableBody.innerHTML += rowHTML;
             }
@@ -179,24 +180,6 @@
             reRenderElements(currentPage)
             }
         });
-
-        // weekButton.addEventListener("click", () => {
-        //     chartScale = 7
-        //     myChart.destroy()
-        //     displayChart(currentPage);
-        // })
-
-        // monthButton.addEventListener("click", () => {
-        //     chartScale = 30
-        //     myChart.destroy()
-        //     displayChart(currentPage);
-        // })
-
-        // allTimeButton.addEventListener("click", () => {
-        //     chartscale = data["dates"].length
-        //     myChart.destroy()
-        //     displayChart(currentPage);
-        // })
 
         displayTable(currentPage);
     </script>
