@@ -25,7 +25,7 @@ def view_entries():
     if request.method == 'GET':   
         data_tuples = get()
         data = {
-            "dates": [row[0][:-3] for row in data_tuples],
+            "dates": [row[0][5:11] for row in data_tuples],
             "moods": [row[1] for row in data_tuples],
             "sleeps": [row[2] for row in data_tuples],
             "focuses": [row[4] for row in data_tuples],

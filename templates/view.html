@@ -12,7 +12,6 @@
                     <th style="text-align: center; width: 5%;">Hours Slept</th>
                     <th style="text-align: center; width: 5%;">Focus</th>
                     <th style="text-align: center; width: 60%;">Notes</th>
-                    <th class="hideonsmallscreen"></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -152,7 +151,6 @@
                         rowHTML += `<td>${data[key][i]}</td>`;
                     }
                 });
-                rowHTML += `<td class="hideonsmallscreen"><button type='input' id="deleteButton" class='btn btn-danger' value='${data["dates"][i]}'>X</button></td>`
                 rowHTML += "</tr>";
                 tableBody.innerHTML += rowHTML;
             }
