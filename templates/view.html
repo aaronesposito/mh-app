@@ -52,152 +52,15 @@
         data["dates"].forEach((rowDate, index, array) => {
             array[index] = rowDate.slice(0, 10);
         });
-        var myChart = new Chart(cty, {
-                type: 'line',
-                data: {
-                    labels: data["dates"],
-                    datasets: [
-                        {
-                            label: 'Mood Score',
-                            data: data["moods"],
-                            borderColor: 'blue',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Sleep Hours',
-                            data: data["sleeps"],
-                            borderColor: 'green',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Focus Level',
-                            data: data["focuses"],
-                            borderColor: 'red',
-                            fill: false,
-                            tension: 0.3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'All Time'
-                        },
-                        legend: { position: 'top' }
-                    },
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 10,
-                        }
-                    }
-                }
-            });
 
-        var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data["dates"].slice(totalRows-lastPageRows-1, totalRows),
-                    datasets: [
-                        {
-                            label: 'Mood Score',
-                            data: data["moods"].slice(totalRows-lastPageRows-1, totalRows),
-                            borderColor: 'blue',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Sleep Hours',
-                            data: data["sleeps"].slice(totalRows-lastPageRows-1, totalRows),
-                            borderColor: 'green',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Focus Level',
-                            data: data["focuses"].slice(totalRows-lastPageRows-1, totalRows),
-                            borderColor: 'red',
-                            fill: false,
-                            tension: 0.3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Selected Week'
-                        },
-                        legend: { position: 'top' }
-                    },
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 10,
-                        }
-                    }
-                }
-            });
+        var myChart = createCalendar(cty, data, "All Time")
+        var myChart = createCalendar(ctx, data, "Selected Week", [totalRows-lastPageRows-1, totalRows])
+        displayTable(currentPage);
 
         function displayChart(page){
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-            for(header of headers){
-                console.log([data[header].slice(start, end)])
-            }
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data["dates"].slice(page == 1? 0 : start-1, end),
-                    datasets: [
-                        {
-                            label: 'Mood Score',
-                            data: data["moods"].slice(page == 1? 0 : start-1, end),
-                            borderColor: 'blue',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Sleep Hours',
-                            data: data["sleeps"].slice(page == 1? 0 : start-1, end),
-                            borderColor: 'green',
-                            fill: false,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Focus Level',
-                            data: data["focuses"].slice(page == 1? 0 : start-1, end),
-                            borderColor: 'red',
-                            fill: false,
-                            tension: 0.3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Selected Week'
-                        },
-                        legend: { position: 'top' }
-                    },
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 10,
-                        }
-                    }
-                }
-            });
+            myChart = createCalendar(ctx, data, "Selected Week", [page == 1? 0 : start-1, end])
         }
         function displayTable(page){
             tableBody.innerHTML = "";
@@ -240,6 +103,56 @@
             }
         });
 
-        displayTable(currentPage);
+        function createCalendar(element, data, title, range=0) {
+            if (range == 0){
+                range = [0, data["dates"].length+1]
+            }
+            return new Chart(element, {
+                type: 'line',
+                data: {
+                    labels: data["dates"].slice(...range),
+                    datasets: [
+                        {
+                            label: 'Mood Score',
+                            data: data["moods"].slice(...range),
+                            borderColor: 'blue',
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Sleep Hours',
+                            data: data["sleeps"].slice(...range),
+                            borderColor: 'green',
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Focus Level',
+                            data: data["focuses"].slice(...range),
+                            borderColor: 'red',
+                            fill: false,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${title}`
+                        },
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 10,
+                        }
+                    }
+                }
+            });
+            }
     </script>
 {% endblock %}
