@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from crud import add, get
-
+from apicall import random_xkcd
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    comic = random_xkcd()
+    return render_template('home.html', img=comic["img"], title=comic["title"])
 
 @app.route("/create", methods=['GET', 'POST'])
 def create_entry():
