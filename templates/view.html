@@ -50,25 +50,25 @@
         var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data["dates"].slice(totalRows-lastPageRows, totalRows),
+                    labels: data["dates"].slice(totalRows-lastPageRows-1, totalRows),
                     datasets: [
                         {
                             label: 'Mood Score',
-                            data: data["moods"].slice(0, 7),
+                            data: data["moods"].slice(totalRows-lastPageRows-1, totalRows),
                             borderColor: 'blue',
                             fill: false,
                             tension: 0.3
                         },
                         {
                             label: 'Sleep Hours',
-                            data: data["sleeps"].slice(0, 7),
+                            data: data["sleeps"].slice(totalRows-lastPageRows-1, totalRows),
                             borderColor: 'green',
                             fill: false,
                             tension: 0.3
                         },
                         {
                             label: 'Focus Level',
-                            data: data["focuses"].slice(0, 7),
+                            data: data["focuses"].slice(totalRows-lastPageRows-1, totalRows),
                             borderColor: 'red',
                             fill: false,
                             tension: 0.3
