@@ -8,6 +8,9 @@ tr{
 table{
     margin: 2%;
 }
+body{
+    font-family: "Rubik", serif;
+}
 #chart-container {
     margin: 2% 0px 2%;
     width: 60vw;
@@ -29,4 +32,9 @@ table{
     text-align: center;
     vertical-align: middle;
     margin-right: 5%;
+}
+#home-image {
+    width: 70vw;
+    max-width: 700px;
+    max-height: 800px;
 }
