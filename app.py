@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
-from crud import add, get
-from apicall import random_xkcd
+from mh_lib import add, get, random_xkcd
 
 app = Flask(__name__)
 
