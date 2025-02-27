@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from mh_lib import add, get, random_xkcd
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ def create_entry():
                 float(request.form['sleep']),
                 request.form['notes']]
         add(data)        
-        return render_template('home.html')
+        return redirect("/")
     else:
         return render_template('form.html')
 
