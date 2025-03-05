@@ -37,4 +37,8 @@ body{
     width: 70vw;
     max-width: 700px;
     max-height: 800px;
+    align-self: center;
+}
+#home-title {
+    text-align: center;
 }
