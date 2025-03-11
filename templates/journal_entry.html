@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Journal Entry{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-5"> 
+        <form style="width:40vw" action="{{ url_for('create_journal') }}" method="post">
+            <div class="form-group">
+                <label for="entry" class="d-flex justify-content-center"><h2>Start Writing</h2></label>
+                <textarea rows="15" cols="25" class="form-control bg-light" aria-label="entry" id="entry" name="entry"></textarea>
+            </div>  
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+{% endblock %}

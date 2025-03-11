@@ -42,3 +42,8 @@ body{
 #home-title {
     text-align: center;
 }
+#journal-header {
+    align-content: center;
+    text-align: center;
+    font-size: large;
+}
