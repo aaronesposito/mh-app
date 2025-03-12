@@ -39,8 +39,11 @@ def view_entries():
 @app.route("/create_journal", methods=["GET", "POST"])
 def create_journal():
     if request.method == "POST":
-        data = request.form['entry']
-        add_journal(data)
+        try:
+            data = [request.form['entry'], request.form['title']]
+            add_journal(data)
+        except:
+            print(request.form)
         return redirect("/")
     else:
         return render_template('journal_entry.html')
@@ -48,10 +51,12 @@ def create_journal():
 @app.route("/view_journals", methods=["GET", "DELETE"])
 def view_journals():
     data_tuples = get_journals()
-    data = {
-        "dates": [row[0] for row in data_tuples],
-        "entries": [row[1] for row in data_tuples]
-    }
-    return render_template('journal_view.html')
+    data = []
+    i = 0
+    for row in data_tuples[::-1]:
+        data.append([i, row[0][5:11], row[1], row[2]])
+        i+=1
+    data.reverse()
+    return render_template('journal_view.html', data=data)
 
     

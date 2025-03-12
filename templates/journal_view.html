@@ -5,13 +5,39 @@
 {% block content %}
 
 
+<div class="d-flex justify-content-center mt-5">
+    <div class="me-5 shadow border border-2 border-primary rounded" style="height: 15rem; overflow-y: scroll;">
+        <ul class="no-bullets">
+            {% for item in data %}
+                <li id="{{item[0]}}" 
+                    class="entry-item" 
+                    data-entry="{{ item[2] }}"
+                    style="cursor: pointer;">
+                        {{item[1]}} - {{item[3]}}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card shadow border border-2 border-primary rounded" style="width: 40rem; height: 50rem"> 
+        <div class="card-body">
+            <p class="card-text" id="journal-viewport">
+                Select an entry...
+            </p>
+        </div>
+    </div>
+</div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewport = document.getElementById("journal-viewport");
 
-
-
-
-
-
-
+        document.querySelectorAll(".entry-item").forEach(item => {
+            item.addEventListener("click", function () {
+                const entryText = this.getAttribute("data-entry"); 
+                viewport.textContent = entryText; 
+            });
+        });
+    });
+</script>
 
 {% endblock %}

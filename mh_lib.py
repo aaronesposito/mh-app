@@ -28,7 +28,7 @@ def get():
 def add_journal(data):
     con = sqlite3.connect("mentalhealth.db")
     cur = con.cursor()
-    cur.execute("INSERT INTO journals(entry) VALUES(?)", (data,))
+    cur.execute("INSERT INTO journals(entry, title) VALUES(?, ?)", data)
     con.commit()
     con.close()
 

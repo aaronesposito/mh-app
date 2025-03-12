@@ -11,6 +11,14 @@ table{
 body{
     font-family: "Rubik", serif;
 }
+ul.no-bullets {
+    list-style-type: none;
+    margin-right: 1rem;
+    padding-top: 10px;
+  }
+.entry-item:hover {
+    background-color: rgba(98, 153, 201, 0.329);
+}
 #chart-container {
     margin: 2% 0px 2%;
     width: 60vw;
