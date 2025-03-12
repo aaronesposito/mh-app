@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from mh_lib import add, get, random_xkcd
+from mh_lib import add, get, random_xkcd, add_journal, get_journals
 
 app = Flask(__name__)
 
@@ -34,3 +34,29 @@ def view_entries():
         return render_template('view.html', data=data)
     if request.method == "DELETE":
         pass
+
+
+@app.route("/create_journal", methods=["GET", "POST"])
+def create_journal():
+    if request.method == "POST":
+        try:
+            data = [request.form['entry'], request.form['title']]
+            add_journal(data)
+        except:
+            print(request.form)
+        return redirect("/")
+    else:
+        return render_template('journal_entry.html')
+    
+@app.route("/view_journals", methods=["GET", "DELETE"])
+def view_journals():
+    data_tuples = get_journals()
+    data = []
+    i = 0
+    for row in data_tuples[::-1]:
+        data.append([i, row[0][5:11], row[1], row[2]])
+        i+=1
+    data.reverse()
+    return render_template('journal_view.html', data=data)
+
+    

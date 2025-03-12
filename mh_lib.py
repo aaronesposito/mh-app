@@ -24,3 +24,19 @@ def get():
         data_tuples.append(row)
     con.close()
     return data_tuples
+
+def add_journal(data):
+    con = sqlite3.connect("mentalhealth.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO journals(entry, title) VALUES(?, ?)", data)
+    con.commit()
+    con.close()
+
+def get_journals():
+    data_tuples = []
+    con = sqlite3.connect("mentalhealth.db")
+    cur = con.cursor()
+    for row in cur.execute("SELECT * FROM journals ORDER BY created_on"):
+        data_tuples.append(row)
+    con.close()
+    return data_tuples
