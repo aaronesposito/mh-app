@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from mh_lib import add, get, random_xkcd, add_journal, get_journals
+import os
 
 app = Flask(__name__)
+
+
 
 @app.route("/")
 def home():
@@ -60,3 +63,6 @@ def view_journals():
     return render_template('journal_view.html', data=data)
 
     
+if __name__ == "__main__":
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
