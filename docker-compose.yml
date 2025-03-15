@@ -1,11 +1,12 @@
 services:
   flask-app:
     build: .
-    restart: always
     ports:
       - "5001:5001"
     volumes:
       - .:/app
+    env_file:
+      - .env
     environment:
       - FLASK_ENV=development
     depends_on:
@@ -27,7 +28,6 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: mh-db-admin
-    restart: always
     env_file:
       - .env
     environment:
