@@ -16,10 +16,10 @@ services:
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: "mentalhealth_db"
     volumes:
-      - mhdata:/var/lib/postgresql/sqlite_data
+      - mhdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -36,3 +36,4 @@ services:
 
 volumes:
   mhdata:
+    name: mhdata
