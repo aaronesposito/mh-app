@@ -1,21 +1,26 @@
 # Use an official Python runtime
 FROM python:3.11
 
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy the current directory contents into the container
 COPY . .
 
-# Create a virtual environment and install dependencies
-RUN python -m venv venv && \
-    /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+# Install dependencies globally (no venv)
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port the app runs on
+# Expose the port Flask will run on
 EXPOSE 5001
 
-# Ensure the container uses the virtual environment by default
-ENV PATH="/app/venv/bin:$PATH"
+# Set Flask environment variables
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=dev
+ENV PYTHONUNBUFFERED=1
 
-# Start the application using Waitress
+# Start the application using Waitress (production) or Flask (development)
 CMD ["waitress-serve", "--host=0.0.0.0", "--port=5001", "app:app"]
+
+# Uncomment for development mode
+# CMD ["flask", "run", "--host=0.0.0.0", "--port=5001", "--debug"]
