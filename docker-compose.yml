@@ -1,6 +1,7 @@
 services:
   flask-app:
     build: .
+    restart: always
     ports:
       - "5001:5001"
     volumes:
