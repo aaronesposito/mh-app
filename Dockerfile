@@ -11,12 +11,16 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the port that the app runs on
-EXPOSE 5000
+EXPOSE 5001
 
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_ENV=production
-
+ENV FLASK_ENV=dev
+ENV PYTHONUNBUFFERED=1
+# uncomment for prod
 # Start the application using Waitress
 CMD ["waitress-serve", "--host=0.0.0.0", "--port=5001", "app:app"]
+
+#uncomment for dev
+# CMD ["flask", "run", "--host=0.0.0.0", "--port=5001", "--debug"]

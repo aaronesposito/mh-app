@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from mh_lib import add, get, random_xkcd, add_journal, get_journals
 import os
+from db_init import initialize_database
+
 
 app = Flask(__name__)
 
-
+initialize_database()
 
 @app.route("/")
 def home():
@@ -28,7 +30,7 @@ def view_entries():
     if request.method == 'GET':   
         data_tuples = get()
         data = {
-            "dates": [row[0][5:11] for row in data_tuples],
+            "dates": [row[0].strftime("%Y-%m-%d") for row in data_tuples],
             "moods": [row[1] for row in data_tuples],
             "sleeps": [row[2] for row in data_tuples],
             "focuses": [row[4] for row in data_tuples],
@@ -57,12 +59,17 @@ def view_journals():
     data = []
     i = 0
     for row in data_tuples[::-1]:
-        data.append([i, row[0][5:11], row[1], row[2]])
+        data.append([i, row[0].strftime("%Y-%m-%d"), row[1], row[2]])
         i+=1
     data.reverse()
     return render_template('journal_view.html', data=data)
 
     
 if __name__ == "__main__":
+    #PROD
     from waitress import serve
     serve(app, host="0.0.0.0", port=5001)
+
+    #DEV
+    # app.run(debug=True)
+    
