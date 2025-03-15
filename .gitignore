@@ -1,6 +1,9 @@
 # Ignore SQLite database file
 mentalhealth.db
 
+# Ignore environment variables
+.env
+
 # Ignore virtual environment folder
 .venv/
 
