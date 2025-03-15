@@ -20,6 +20,7 @@ ENV FLASK_ENV=dev
 ENV PYTHONUNBUFFERED=1
 # uncomment for prod
 # Start the application using Waitress
-# CMD ["waitress-serve", "--host=0.0.0.0", "--port=5001", "app:app"]
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=5001", "app:app"]
 
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5001", "--debug"]
+#uncomment for dev
+# CMD ["flask", "run", "--host=0.0.0.0", "--port=5001", "--debug"]

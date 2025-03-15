@@ -66,11 +66,10 @@ def view_journals():
 
     
 if __name__ == "__main__":
-
     #PROD
-    # from waitress import serve
-    # serve(app, host="0.0.0.0", port=5001)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5001)
 
     #DEV
-    app.run(debug=True)
+    # app.run(debug=True)
     
