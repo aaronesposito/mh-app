@@ -19,4 +19,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_ENV=production
 
 # Start the application using Waitress
-CMD ["waitress-serve", "--host=0.0.0.0", "--port=5000", "app:app"]
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=5001", "app:app"]
