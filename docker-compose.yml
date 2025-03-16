@@ -4,6 +4,7 @@ services:
     image: aarooon16045/mh-app:latest
     ports:
       - "5001:5001"
+    restart: on-failure
     depends_on:
       - postgres
     working_dir: /app
@@ -14,7 +15,7 @@ services:
   postgres:
     image: postgres:14.5-bullseye
     container_name: mh-db
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -27,6 +28,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: mh-db-admin
+    restart: on-failure
     env_file:
       - .env
     environment:
