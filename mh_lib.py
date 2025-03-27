@@ -1,7 +1,5 @@
 import requests
 from random import randint
-import psycopg2
-from dotenv import load_dotenv
 import os
 from db_init import initialize_conn
 
@@ -45,3 +43,11 @@ def get_journals():
     cur.close()
     conn.close()
     return data_tuples
+
+
+def get_credential():
+    PASSPHRASE = os.getenv("PASSPHRASE")
+    return PASSPHRASE
+
+def check_credential(password):
+    return get_credential() == password

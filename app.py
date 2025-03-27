@@ -1,14 +1,30 @@
 from flask import Flask, render_template, request, redirect, url_for
-from mh_lib import add, get, random_xkcd, add_journal, get_journals
+from mh_lib import add, get, random_xkcd, add_journal, get_journals, check_credential
 import os
 from db_init import initialize_database
+import json
 
 
 app = Flask(__name__)
 
 initialize_database()
 
-@app.route("/")
+@app.route("/",  methods=['GET', 'POST'])
+def entry():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        data = request.get_json()
+        if check_credential(data['password']):
+            print("successfully authenticated")
+            return redirect('/home')
+        else:
+            print("auth failed")
+            return render_template('login.html')
+
+
+
+@app.route("/home")
 def home():
     comic = random_xkcd()
     return render_template('home.html', img=comic["img"], title=comic["title"])
@@ -21,7 +37,7 @@ def create_entry():
                 float(request.form['sleep']),
                 request.form['notes']]
         add(data)        
-        return redirect("/")
+        return redirect("/home")
     else:
         return render_template('form.html')
 
