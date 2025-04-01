@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from mh_lib import add, get, random_xkcd, add_journal, get_journals, check_credential
+from flask_cors import CORS
 import os
 from db_init import initialize_database
 import json
@@ -7,12 +8,17 @@ import json
 
 app = Flask(__name__)
 
+CORS(app)
+
 initialize_database()
 
 @app.route("/",  methods=['GET', 'POST'])
 def entry():
     if request.method == 'GET':
-        return render_template('login.html')
+        print("auth failed")
+        auth_url = os.getenv("URL")
+        url = {"url": auth_url}
+        return render_template('login.html', data=url)
     else:
         data = request.get_json()
         if check_credential(data['password']):
