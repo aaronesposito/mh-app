@@ -14,9 +14,9 @@ initialize_database()
 
 @app.route("/",  methods=['GET', 'POST'])
 def entry():
+    auth_url = os.getenv("URL")
+    url = {"url": auth_url}
     if request.method == 'GET':
-        print("auth failed")
-        auth_url = os.getenv("URL")
         url = {"url": auth_url}
         return render_template('login.html', data=url)
     else:
@@ -26,7 +26,7 @@ def entry():
             return redirect('/home')
         else:
             print("auth failed")
-            return render_template('login.html')
+            return render_template('login.html', data=url)
 
 
 
