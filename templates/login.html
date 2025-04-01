@@ -30,7 +30,7 @@
     const buttonQuery = document.querySelector("#form-submit")
     buttonQuery.addEventListener("click", checkForEntry)
     const authUrl = {{data | tojson}}
-    
+    console.log(authUrl.url)
     function checkForEntry(){
         let pass = document.getElementById("passphrase").value
         const data = {password: pass}
