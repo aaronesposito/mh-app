@@ -14,7 +14,7 @@ initialize_database()
 
 @app.route("/",  methods=['GET', 'POST'])
 def entry():
-    auth_url = os.getenv("URL")
+    auth_url = os.getenv("AUTHURL")
     url = {"url": auth_url}
     if request.method == 'GET':
         url = {"url": auth_url}
