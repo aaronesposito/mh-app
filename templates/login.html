@@ -29,12 +29,12 @@
     <script>
     const buttonQuery = document.querySelector("#form-submit")
     buttonQuery.addEventListener("click", checkForEntry)
+    const authUrl = {{data | tojson}}
     
     function checkForEntry(){
-        const url = "http://localhost:5001/"
         let pass = document.getElementById("passphrase").value
         const data = {password: pass}
-        fetch(url, {
+        fetch(authUrl.url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,10 +50,3 @@
     </script>
 </body>
 </html>        
-
-
-
-<!-- // if (pass == password){
-//     let entry = document.getElementById("entry")
-//     entry.innerHTML += "<a class='btn btn-primary mt-3' href='{{ url_for('home') }}'>ENTER</a>"
-// } -->
