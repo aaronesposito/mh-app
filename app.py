@@ -4,11 +4,13 @@ from flask_cors import CORS
 import os
 from db_init import initialize_database
 import json
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
-
 CORS(app)
+load_dotenv()
+
 
 initialize_database()
 
