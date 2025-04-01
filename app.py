@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
-
-
 initialize_database()
 
 @app.route("/",  methods=['GET', 'POST'])
