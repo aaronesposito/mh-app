@@ -1,9 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 from mh_lib import add, get, random_xkcd, add_journal, get_journals, check_credential
 from flask_cors import CORS
-import os
 from db_init import initialize_database
-import json
 from dotenv import load_dotenv
 
 
@@ -14,19 +12,16 @@ initialize_database()
 
 @app.route("/",  methods=['GET', 'POST'])
 def entry():
-    auth_url = os.getenv("AUTHURL")
-    url = {"url": auth_url}
     if request.method == 'GET':
-        url = {"url": auth_url}
-        return render_template('login.html', data=url)
+        return render_template('login.html', invalid_phrase="Initial")
     else:
-        data = request.get_json()
-        if check_credential(data['password']):
+        print(request.form)
+        if check_credential(request.form['passphrase']):
             print("successfully authenticated")
             return redirect('/home')
         else:
             print("auth failed")
-            return render_template('login.html', data=url)
+            return render_template('login.html', invalid_phrase="Invalid Passphrase")
 
 
 

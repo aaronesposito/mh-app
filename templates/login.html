@@ -14,39 +14,23 @@
 </head>
 <body>
     <div class="d-flex flex-column align-items-center justify-content-center" style="height:70vh">
-            <form>
+            <form action="{{ url_for('entry') }}" method="post">
                 <div class="d-flex">
                     <input type="text" class="form-control bg-light align-items-center" aria-label="passphrase" id="passphrase" name="passphrase"></textarea>
-                    <button type="button" class='material-icons md-24' style="width:40px" id="form-submit">
+                    <button type="submit" class='material-icons md-24' style="width:40px" id="form-submit">
                         lock-open
                     </button>
                 </div>
+                <div id="invalid"></div>
             </form>
-            <div id="entry" class="mt-5">
-
-            </div>
     </div>
     <script>
-    const buttonQuery = document.querySelector("#form-submit")
-    buttonQuery.addEventListener("click", checkForEntry)
-    const authUrl = {{data | tojson}}
-    console.log(authUrl.url)
-    function checkForEntry(){
-        let pass = document.getElementById("passphrase").value
-        const data = {password: pass}
-        fetch(authUrl.url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url
-            }
-        })
-    }
+        const invalidPhrase = {{invalid_phrase | tojson}}
+        console.log(invalidPhrase)
+        const incorrect = document.getElementById("invalid")
+        if (invalidPhrase === "Invalid Passphrase") {
+            incorrect.innerHTML = `<p>${invalidPhrase}</p>`
+        }
     </script>
 </body>
 </html>        
