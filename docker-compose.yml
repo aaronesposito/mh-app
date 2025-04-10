@@ -45,5 +45,5 @@ services:
 
 
 volumes:
-  mhdata:
-    name: mhdata
+  mh-dev-data:
+    name: mh-dev-data
