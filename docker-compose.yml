@@ -20,7 +20,7 @@ services:
 
   postgres:
     image: postgres:14.5-bullseye
-    container_name: mh-db
+    container_name: mh-db-dev
     restart: on-failure
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -33,7 +33,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: mh-db-admin
+    container_name: mh-db-admin-dev
     restart: on-failure
     env_file:
       - .env
