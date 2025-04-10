@@ -1,7 +1,7 @@
 services:
   flask-app:
     build: .
-    image: aarooon16045/mh-app:${IMAGE_TAG}
+    image: aarooon16045/mh-app-dev:${IMAGE_TAG}
     ports:
       - "5001:5001"
     restart: on-failure
