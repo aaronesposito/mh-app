@@ -27,7 +27,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: "mentalhealth_db"
     volumes:
-      - mhdata:/var/lib/postgresql/data
+      - mh-dev-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
