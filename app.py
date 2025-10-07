@@ -12,25 +12,8 @@ CORS(app)
 load_dotenv()
 initialize_database()
 
-@app.route("/",  methods=['GET', 'POST'])
-def entry():
-    auth_url = os.getenv("AUTHURL")
-    url = {"url": auth_url}
-    if request.method == 'GET':
-        url = {"url": auth_url}
-        return render_template('login.html', data=url)
-    else:
-        data = request.get_json()
-        if check_credential(data['password']):
-            print("successfully authenticated")
-            return redirect('/home')
-        else:
-            print("auth failed")
-            return render_template('login.html', data=url)
 
-
-
-@app.route("/home")
+@app.route("/")
 def home():
     comic = random_xkcd()
     return render_template('home.html', img=comic["img"], title=comic["title"])
@@ -43,7 +26,7 @@ def create_entry():
                 float(request.form['sleep']),
                 request.form['notes']]
         add(data)        
-        return redirect("/home")
+        return redirect("/")
     else:
         return render_template('form.html')
 
